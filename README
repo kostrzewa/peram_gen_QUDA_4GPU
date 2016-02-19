@@ -1,0 +1,10 @@
+peram_gen by Bastian Knippschild, modified by Bartosz Kostrzewa.
+
+Implementation of stochastic LapH method for the generation of perambulators,
+specifically tuned for the use of four NVIDIA GPUs through a special version
+of tmLQCD with the QUDA interface with direct passthrough (quda_invert_direct).
+
+This version of peram_gen is to be linked against a serial version of tmLQCD
+which itself should be linked against QUDA. It works on machines with four GPUs.
+The four GPUs are used in isolation, each inverting one of the four spin diluted
+random sources.

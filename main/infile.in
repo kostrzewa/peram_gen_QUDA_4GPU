@@ -1,0 +1,34 @@
+config = 1000
+total number of configs = 1
+distance between configs = 8
+
+Ls = 4
+Lt = 4
+
+nb_ev = 8
+
+nb_rnd = 0
+seed = 1337
+
+verbose = 0
+
+quarktype = u
+
+inversion_source_type_t   = F
+inversion_source_number_t = 4
+inversion_source_type_v   = F
+inversion_source_number_v = 8
+inversion_source_type_d   = F
+inversion_source_number_d = 4
+
+inversion_sink_type_t   = F
+inversion_sink_number_t = 48
+inversion_sink_type_s   = F
+inversion_sink_number_s = 24
+inversion_sink_type_d   = F
+inversion_sink_number_d = 4
+inversion_sink_type_c   = F
+inversion_sink_number_c = 3
+
+outpath = ../../data
+inpath_ev = ../../data 
