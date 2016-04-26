@@ -100,11 +100,15 @@ int main(int argc, char *argv[]){
     omp_set_num_threads(param.peram_gen_omp_num_threads);
     #pragma omp parallel
     {
+      // with new CUDA versions, it seems that device memory is dependent on the allocating thread
+      // as a result, we need to ensure that only one thread launches the inversion while another
+      // takes care of building the perambulator
+      int num_threads = omp_get_num_threads();
+      int thread_id = omp_get_thread_num();
       // loop over all inversions
       for(size_t dil_t = 0; dil_t < param.dilution_size_so[0]; ++dil_t){
-        for(size_t dil_e = 0; dil_e < param.dilution_size_so[1]; ++dil_e){        
-          #pragma omp single nowait
-          {
+        for(size_t dil_e = 0; dil_e < param.dilution_size_so[1]; ++dil_e){
+          if( num_threads == 1 || thread_id == 0 ){
             if(myid == 0) std::cout << "\t\nDoing inversions at: " << dil_t << "\t" << dil_e << "\n" << std::endl;
          
             dis.create_source(dil_t, dil_e, source); 
@@ -125,8 +129,7 @@ int main(int argc, char *argv[]){
           // simulteneously
           #pragma omp barrier
           
-          #pragma omp single nowait
-          {
+          if( num_threads == 1 || thread_id == 1 ){
             // reordering the propagators over processes
             for(int id_source = 0; id_source < numprocs; id_source++){
                 MPI_Scatter((double*) (propagator_loc), 2*length/numprocs, MPI_DOUBLE,
@@ -135,12 +138,11 @@ int main(int argc, char *argv[]){
             } 
             MPI_Barrier(mpi_comm_world_2);
           }
-          // this barrier is required because otherwise propagator would be accessed from two threads simulateneously
+          // this barrier is required because otherwise propagator could be accessed from two threads simulateneously
           # pragma omp barrier
           
           // one of the two threads enters this, the other immediately moves to the next iteration
-          #pragma omp single nowait
-          {
+          if( num_threads == 1 || thread_id == 1 ){
             // constructing the perambulator
             for(size_t dil_d = 0; dil_d < param.dilution_size_so[2]; dil_d++)
               dis.add_to_perambulator(dil_t, dil_e, dil_d, 
