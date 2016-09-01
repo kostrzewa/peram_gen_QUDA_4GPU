@@ -358,7 +358,7 @@ void LapH::distillery::set_random_vector() {
 
   double sqrt2 = 0.5*sqrt(2.0);
   double re, im;
-  rlxs_init(0, param.seed^param.config);
+  rlxs_init(2, param.seed^param.config);
   int rnd_length = 2*param.Lt*param.nb_ev*4;
   float* rnd = new float[rnd_length];
   ranlxs(rnd, rnd_length);
