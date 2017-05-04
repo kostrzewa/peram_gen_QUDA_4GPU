@@ -322,7 +322,7 @@ void LapH::distillery::write_perambulator_to_disk() {
       param.dilution_type_si[1].c_str(), (int) param.dilution_size_si[1], 
       param.dilution_type_si[2].c_str(), (int) param.dilution_size_si[2], 
       param.dilution_type_si[3].c_str(), (int) param.dilution_size_si[3], 
-      1, (int) param.config);
+      0, (int) param.config); // we don't have support for sink smearing in this version
   // writing data
   for(int id = 0; id < numprocs; id++){
     if(myid == id){
