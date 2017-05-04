@@ -61,7 +61,7 @@ LIBPATH = /usr/local/lib $(TMLQCD_build)/lib/  $(LIMEPATH)/lib/ /hadron/bartek/c
 # scheduling and optimization options
 CXXFLAGS = -Wall -pedantic -O3 -mtune=corei7-avx -march=corei7-avx -std=c++0x -fopenmp #-fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free
 CFLAGS =   -Wall -pedantic -O3 -mtune=corei7-avx -march=corei7-avx -std=c99 -DHAVE_CONFIG_H -fopenmp #-fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free
-LDFLAGS =  
+LDFLAGS = -fopenmp 
 #-Wl,-rpath -Wl,/hadron/bartek/code/jemalloc/lib/ # -Wl,-rpath -Wl,/hadron/bartek/local/libs/tcmalloc/lib/
 
 ############################## do not change ###################################
